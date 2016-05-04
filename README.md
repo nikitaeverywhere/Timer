@@ -50,6 +50,6 @@ Constructor. Initializes the timer over the element.
 + `element` - HTML element.
 + `options` - Optional object with additional configuration.
     + `mask` `{string}` = `"hh:mm:ss"` - Output format. `h`, `m`, `s` and doubles are supported.
-    + `updateInterval` `{number}` = `50` - Timer update interval in milliseconds.
+    + `updateInterval` `{number}` = `1000` - Timer update interval in milliseconds.
     + `type` `{string}` = `"countup"` - Timer type.
     + `initialTime` `{number}` = `0` - Initial time in milliseconds.
