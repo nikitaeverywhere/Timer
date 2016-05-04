@@ -19,7 +19,7 @@ export default function Timer (element, options = {}) {
     this.mask = options.mask || "hh:mm:ss";
     this.updateInterval = options.updateInterval || 1000;
     this.TYPE = options.type || "countup";
-    this.initialDate = new Date().getTime() + (options.initialTime || 0);
+    this.initialTime = new Date().getTime() + (options.initialTime || 0);
 
     // prevent previously set timers from conflicting
     if (element._ZITROTIMER && element._ZITROTIMER instanceof Timer)
@@ -49,16 +49,16 @@ Timer.prototype.update = function () {
     let time;
     
     if (this.TYPE === "countup")
-        time = new Date() - this.initialDate;
+        time = new Date().getTime() - this.initialTime;
     else {
-        time = Math.max(0, this.initialDate - new Date());
+        time = Math.max(0, this.initialTime - new Date().getTime());
         if (time === 0)
             clearInterval(this.interval);
     }
     
-    let hours = Math.floor(time / 1000 / 60 / 60),
-        minutes = Math.floor(time / 1000 / 60 - hours),
-        seconds = Math.floor(time / 1000 - hours - minutes);
+    let hours = Math.floor((time / (1000 * 60 * 60)) % 24),
+        minutes = Math.floor((time / (1000 * 60)) % 60),
+        seconds = Math.floor((time / 1000) % 60);
 
     this.element.textContent = this.mask
         .replace(/h{1,2}/g, p => pad(hours, p.length))
