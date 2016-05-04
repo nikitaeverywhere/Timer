@@ -34,7 +34,7 @@ To initialize timer, and, for example, set the count up timer (default one), wri
 import Timer from "./Timer"; // directory where timer is stored
 
 new Timer(document.querySelector("#timer"), {
-    updateInterval: 25 // optional, may not be specified
+    mask: "" // optional, may not be specified
 });
 ```
 
@@ -49,7 +49,7 @@ Constructor. Initializes the timer over the element.
 
 + `element` - HTML element.
 + `options` - Optional object with additional configuration.
-    + `mask` `{string}` = `"HH:MM:ss"` - Output format.
+    + `mask` `{string}` = `"hh:mm:ss"` - Output format. `h`, `m`, `s` and doubles are supported.
     + `updateInterval` `{number}` = `50` - Timer update interval in milliseconds.
     + `type` `{string}` = `"countup"` - Timer type.
     + `initialTime` `{number}` = `0` - Initial time in milliseconds.

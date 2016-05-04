@@ -5,8 +5,8 @@
  * @param {HTMLElement} element - Element to attach timer to. Inner text of the element will be
  * controlled by Timer module.
  * @param {Object} [options]
- * @param {string} [options.mask=HH:MM:ss] - Output timer mask.
- * @param {number} [options.updateInterval=50] - Timer update interval in milliseconds.
+ * @param {string} [options.mask=hh:mm:ss] - Output timer mask.
+ * @param {number} [options.updateInterval=1000] - Timer update interval in milliseconds.
  * @param {string} [options.type=countup] - Timer type.
  * @param {number} [options.initialTime=0] - Initial time in milliseconds.
  */
@@ -17,12 +17,16 @@ export default function Timer (element, options = {}) {
 
     this.element = element;
     this.mask = options.mask || "hh:mm:ss";
-    this.updateInterval = options.updateInterval || 50;
+    this.updateInterval = options.updateInterval || 1000;
     this.TYPE = options.type || "countup";
-    this.initialDate = new Date() + (options.initialTime || 0);
+    this.initialDate = new Date().getTime() + (options.initialTime || 0);
+
+    // prevent previously set timers from conflicting
+    if (element._ZITROTIMER && element._ZITROTIMER instanceof Timer)
+        element._ZITROTIMER.stop();
+    element._ZITROTIMER = this;
 
     this.interval = setInterval(this.update.bind(this), this.updateInterval);
-
     this.update();
 
 }
@@ -30,6 +34,12 @@ export default function Timer (element, options = {}) {
 function pad (val, n = 2) {
     return `000${ val }`.slice(-n);
 }
+
+Timer.prototype.stop = function () {
+
+    clearInterval(this.interval);
+
+};
 
 /**
  * @private
